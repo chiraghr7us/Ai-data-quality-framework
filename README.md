@@ -2,7 +2,7 @@
 
 Automated data quality monitoring and NLP-based ticket classification — built with **Python, scikit-learn, PyTorch/Transformers, and Power BI**, validated on both a local environment and **Databricks**.
 
-![Architecture](images/architecture_diagram.png)
+![Dashboard](powerbi.png)
 
 ## Problem
 
@@ -43,30 +43,11 @@ Then the same technique was tested on a fine-tuned DistilBERT model — and it m
 
 Re-running the identical 120-pipeline validation on a Databricks cluster produced a real discrepancy: 55 schema failures instead of the original 35, even with identical column names, column order, dtypes, and row counts confirmed. Rather than write it off as "just a different environment," each structural factor was checked and ruled out in sequence — landing on a **NumPy version difference** (2.2.6 locally vs. 2.1.3 on Databricks) as the actual cause: seeded random generators aren't guaranteed to produce an identical output sequence across library versions, even given the same seed.
 
-Full write-up, including the exact diagnostic steps: [`docs/build_guide.md`](docs/build_guide.md), Phase 7.
-
-## Repository Structure
-
-```
-data-quality-observability-framework/
-├── README.md
-├── src/
-│   ├── data_quality_utils.py     # corrupt_dataset() — reused from the FinOps project
-│   └── quality_checks.py         # 4 quality checks + composite trust score
-├── notebooks/
-│   └── (add your notebooks here — NLP classification, 120-pipeline loop, Databricks run)
-├── images/
-│   ├── architecture_diagram.png
-│   └── (add Power BI dashboard screenshots here)
-├── data/
-│   └── (dataset not included — see Reproducing the Dataset below)
-└── docs/
-    └── build_guide.md            # Full step-by-step build + debugging log
-```
+Full write-up, including the exact diagnostic steps: [`build_guide.md`](build_guide.md), Phase 7.
 
 ## Reproducing the Dataset
 
-This project uses the [IT Service Ticket Classification Dataset](https://www.kaggle.com/datasets/adisongoh/it-service-ticket-classification-dataset) (Kaggle, free account required). Download `it_tickets.csv` and place it in `data/` to run the notebooks.
+This project uses the [IT Service Ticket Classification Dataset](https://www.kaggle.com/datasets/adisongoh/it-service-ticket-classification-dataset) (Kaggle, free account required). Download `it_tickets.csv` to run the notebooks.
 
 ## Tech Stack
 
@@ -74,4 +55,4 @@ This project uses the [IT Service Ticket Classification Dataset](https://www.kag
 
 ## Notes on Methodology
 
-Every quantitative claim in this project was validated against ground truth or a known baseline before being reported — the corrupted test fixtures have known, deliberately-injected defects; the anomaly-equivalent trust scores were checked against expected penalty math; the transformer's best checkpoint was selected by validation loss specifically to avoid reporting an overfit epoch's inflated metric. Full reasoning for every result — including the cases where a "worse" number was the correct, honest one to report — is in `docs/build_guide.md`.
+Every quantitative claim in this project was validated against ground truth or a known baseline before being reported — the corrupted test fixtures have known, deliberately-injected defects; the anomaly-equivalent trust scores were checked against expected penalty math; the transformer's best checkpoint was selected by validation loss specifically to avoid reporting an overfit epoch's inflated metric. Full reasoning for every result — including the cases where a "worse" number was the correct, honest one to report — is in `build_guide.md`.
