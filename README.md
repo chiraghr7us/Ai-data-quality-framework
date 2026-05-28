@@ -2,7 +2,7 @@
 
 Automated data quality monitoring and NLP-based ticket classification — built with **Python, scikit-learn, PyTorch/Transformers, and Power BI**, validated on both a local environment and **Databricks**.
 
-![Dashboard](powerbi.png)
+![Architecture](architecture_diagram_ai.png)
 
 ## Problem
 
@@ -19,6 +19,8 @@ Every check was validated against **known-bad data it was deliberately corrupted
 | Pipelines validated in batch | **120** (mean trust score 76.9, 81/120 failing ≥1 check) |
 | Cross-environment validation | Re-run on a real **Databricks** cluster |
 | Quality checks | 4 (schema, nulls, freshness, drift) — validated against known-clean and known-corrupted fixtures |
+
+![Dashboard](powerbi.png)
 
 ## Architecture
 
